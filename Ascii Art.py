@@ -22,7 +22,7 @@ init(strip=not sys.stdout.isatty())  # strip colors if stdout is redirected
 
 #cprint(figlet_format('Jacob', font='avatar'), 'blue', 'on_red', attrs=['bold'])
 
-
+print("Please input your name")
 nameVar = input("")
 
 asciiJACOB = """
