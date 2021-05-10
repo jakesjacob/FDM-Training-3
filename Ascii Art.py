@@ -15,7 +15,7 @@ from art import *
 #tprint("Jacob", font="rnd-large")
 tprint("INVEST", font="block", chr_ignore=True)
 
-ascii_art101 = pyfiglet.figlet_format("Hello Jacob")
+ascii_art101 = pyfiglet.figlet_format("Hello Lauren")
 print(ascii_art101)
 
 init(strip=not sys.stdout.isatty())  # strip colors if stdout is redirected
@@ -97,3 +97,14 @@ print(output)
 
 
 # print(asciiJACOB)
+
+greetings = input()
+print(greetings)
+print("Hello ", greetings, " !")
+
+first_name = input("Enter your first name: ")
+second_name = input("Enter your second name: ")
+
+full_name = first_name + second_name
+
+print("Hello " + full_name)
