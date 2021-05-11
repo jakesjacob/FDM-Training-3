@@ -3,6 +3,7 @@
 def fizzBuzz():
     userInput = input("Please enter a number: ")
     userInputInt = int(userInput)
+
     divide3 = userInputInt/3
     divide3int = int(divide3)
 
@@ -19,5 +20,19 @@ def fizzBuzz():
         print(userInput)
 
 
+def fizzBuzz2():
+    userInput = input("Please enter a number: ")
+    userInputInt = int(userInput)
+
+    if userInputInt % 3 == 0 and userInputInt % 5 == 0:
+        print("FIZZ BUZZ")
+    elif userInputInt % 3 == 0:
+        print("FIZZ")
+    elif userInputInt % 5 == 0:
+        print("BUZZ")
+    else:
+        print(userInput)
+
+
 while 1:
-    fizzBuzz()
+    fizzBuzz2()
