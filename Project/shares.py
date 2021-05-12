@@ -1,6 +1,6 @@
 import random
 import time
-from datetime import datetime
+import schedule
 
 share1 = float(1.0)
 
@@ -11,9 +11,11 @@ def updateShares():
         share1 = share1 + random.random()
     else:
         share1 = share1 - random.random()
-    print(share1)
+    # print(share1)
 
 
-for num in range(0, 50):
-    updateShares()
-    time.sleep(1)
+schedule.every(1).seconds.do(updateShares)
+
+
+def updateAllShares():
+    schedule.run_pending()

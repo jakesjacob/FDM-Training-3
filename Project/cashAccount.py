@@ -46,3 +46,6 @@ while thisIsTrue:
         print("\nEnter the amount you want to withdraw: ")
         value = input("Amount = ")
         cashAccount = withdrawCash(int(value), cashAccount)
+
+
+def depositScreen():
