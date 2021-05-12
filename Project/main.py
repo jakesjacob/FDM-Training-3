@@ -7,6 +7,8 @@ import os
 from art import *
 import pyfiglet
 from pyfiglet import figlet_format
+import time
+from threading import Thread
 
 
 def clearScreen():
@@ -35,15 +37,37 @@ def updateScreen():
 """
 
 
-while 1:
-    shares.updateAllShares()
-    print(shares.share1)
-    print("Cash Account Value: ", cashAccount.cashAccount)
-    print(menus.menuPicture)
-    print(menus.mainMenuSwitch(input("Please enter your menu selection: ")))
+def updateScreenAccountInfo():
+    print("Share 1 price: ".ljust(25, ' '), shares.share1rounded)
+    print("Share 2 price: ".ljust(25, ' '), shares.share2rounded)
+    print("Share 2 price: ".ljust(25, ' '), shares.share3rounded)
+    print("Cash Account Value: ".ljust(25, ' '), cashAccount.cashAccount)
+    print("Investing Account Value: ".ljust(25, ' '), cashAccount.cashAccount)
+    print("\n")
 
-    if menus.depositMenuActive:
+
+def menuLoop():
+    if menus.mainMenuActive:
+        print(menus.menuPicture)
+        updateScreenAccountInfo()
+        print(menus.mainMenuSwitch(input("Please enter your menu selection: ")))
+    elif menus.depositMenuActive:
+        updateScreenAccountInfo()
         print(menus.depositMenuSwitch(
             input("Please enter your menu selection: ")))
+    elif menus.withdrawMenuActive:
+        updateScreenAccountInfo()
+        print(menus.withdrawMenuSwitch(
+            input("Please enter your menu selection: ")))
+    elif menus.sharesMenuActive:
+        updateScreenAccountInfo()
+        print(menus.sharesMenuSwitch(
+            input("Please enter your menu selection: ")))
     elif menus.subMenuActive:
+        updateScreenAccountInfo()
         print(menus.subMenuSwitch(input("Please enter your menu selection: ")))
+
+
+while 1:
+    menuLoop()
+    shares.updateAllShares()
