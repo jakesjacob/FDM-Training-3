@@ -31,6 +31,7 @@ def withdrawCash(value, cashAccount):
     return newCashAccount
 
 
+"""
 thisIsTrue = True
 
 while thisIsTrue:
@@ -46,9 +47,11 @@ while thisIsTrue:
         print("\nEnter the amount you want to withdraw: ")
         value = input("Amount = ")
         cashAccount = withdrawCash(int(value), cashAccount)
+"""
 
 
 def depositScreen():
+    global cashAccount
     print("\nEnter the amount you want to deposit: ")
     value = input("Amount = ")
     cashAccount = depositCash(int(value), cashAccount)

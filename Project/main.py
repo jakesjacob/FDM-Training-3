@@ -38,7 +38,12 @@ def updateScreen():
 while 1:
     shares.updateAllShares()
     print(shares.share1)
+    print("Cash Account Value: ", cashAccount.cashAccount)
     print(menus.menuPicture)
     print(menus.mainMenuSwitch(input("Please enter your menu selection: ")))
-    while menus.subMenuActive:
+
+    if menus.depositMenuActive:
+        print(menus.depositMenuSwitch(
+            input("Please enter your menu selection: ")))
+    elif menus.subMenuActive:
         print(menus.subMenuSwitch(input("Please enter your menu selection: ")))

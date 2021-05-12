@@ -27,8 +27,8 @@ def tupleCheck():
     userInput = input(
         "\nEnter someones first name to find out their favourite colour: ")
     for count2 in range(0, classNum):
-        if userInput == techOps[count2][0]:
-            print("This is " + userInput +
+        if userInput.title() == techOps[count2][0]:
+            print("This is " + userInput.title() +
                   " favourite colour: ", techOps[count2][2])
 
 

@@ -1,9 +1,13 @@
 import os
+import cashAccount
+
 
 menuList = ("1", "2", "3", "4", "5", "X", "x")
 cashMenuList = ("1", "X", "x")
+
 menuActive = True
 subMenuActive = False
+depositMenuActive = False
 
 
 def clearScreen():
@@ -12,9 +16,10 @@ def clearScreen():
 
 def mainMenuSwitch(selection):
     global subMenuActive
+    global depositMenuActive
     if selection in menuList:
         if selection == "1":
-            subMenuActive = True
+            depositMenuActive = True
             clearScreen()
             return menuItem1
         elif selection == "2":
@@ -52,7 +57,7 @@ def subMenuSwitch(selection):
         elif selection == "4":
             clearScreen()
             return "Item coming soon"
-        elif selection == "X" or "x":
+        elif selection == "X" or selection == "x":
             clearScreen()
             subMenuActive = False
             return ""
@@ -61,18 +66,18 @@ def subMenuSwitch(selection):
 
 
 def depositMenuSwitch(selection):
-    global subMenuActive
+    global depositMenuActive
     if selection in cashMenuList:
         if selection == "1":
+            cashAccount.depositScreen()
+            depositMenuActive = False
+        elif selection == "X" or selection == "x":
             clearScreen()
-            depositScreen()
-            subMenuActive = False
-        elif selection == "X" or "x":
-            clearScreen()
-            subMenuActive = False
+            depositMenuActive = False
             return ""
     else:
-        return "Please enter a valid input"
+        print("Please enter a valid input")
+        depositMenuSwitch(input("Please enter your menu selection: "))
 
 
 menuPicture = """
