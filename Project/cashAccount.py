@@ -49,3 +49,6 @@ while thisIsTrue:
 
 
 def depositScreen():
+    print("\nEnter the amount you want to deposit: ")
+    value = input("Amount = ")
+    cashAccount = depositCash(int(value), cashAccount)
