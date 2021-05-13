@@ -38,11 +38,14 @@ def updateScreen():
 
 
 def updateScreenAccountInfo():
+
+    shares.calculateTotalInvestAccount()
+
     print("Share 1 price: ".ljust(25, ' '), shares.share1rounded)
     print("Share 2 price: ".ljust(25, ' '), shares.share2rounded)
     print("Share 2 price: ".ljust(25, ' '), shares.share3rounded)
     print("Cash Account Value: ".ljust(25, ' '), cashAccount.cashAccount)
-    print("Investing Account Value: ".ljust(25, ' '), cashAccount.cashAccount)
+    print("Investing Account Value: ".ljust(25, ' '), shares.investAccount)
     print("\n")
 
 
@@ -58,6 +61,10 @@ def menuLoop():
     elif menus.withdrawMenuActive:
         updateScreenAccountInfo()
         print(menus.withdrawMenuSwitch(
+            input("Please enter your menu selection: ")))
+    elif menus.investMenuActive:
+        updateScreenAccountInfo()
+        print(menus.investMenuSwitch(
             input("Please enter your menu selection: ")))
     elif menus.sharesMenuActive:
         updateScreenAccountInfo()

@@ -1,4 +1,4 @@
-cashAccount = 0
+cashAccount = 200
 
 
 def depositCash(value, cashAccount):
