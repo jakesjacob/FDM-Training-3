@@ -55,13 +55,27 @@ def loginScreen():
     userName = getName()
     password = getPassword()
     rowSet = database.fetchAccountName(userName)
-
     if rowSet[0][1] == password:
         print("Welcome back ", userName)
         time.sleep(1)
         clearScreen()
         mainMenuActive = True
         loginMenuActive = False
+
+
+# REGISTER SCREEN
+def registerScreen():
+    global loginMenuActive
+    global registerMenuActive
+    userName = getName()
+    password = getPassword()
+    database.createNewAccount(userName, password, 0, 0)
+    time.sleep(1)
+    clearScreen()
+    print(login)
+    loginMenuActive = True
+    registerMenuActive = False
+    loginScreen()
 
 
 def getName():

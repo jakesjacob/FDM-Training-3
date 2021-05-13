@@ -45,9 +45,8 @@ def startUp():
     print(menus.startMenuSwitch(input("Please enter your menu selection: ")))
     if menus.loginMenuActive:
         menus.loginScreen()
-
-    # elif menus.registerMenuActive:
-    # print(menus.registerScreen)
+    elif menus.registerMenuActive:
+        menus.registerScreen()
 
 
 def updateScreenAccountInfo():
