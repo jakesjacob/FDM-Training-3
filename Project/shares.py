@@ -9,6 +9,11 @@ share1rounded = float(1.0)
 share2rounded = float(1.0)
 share3rounded = float(1.0)
 
+share1List = []
+
+
+def shareShift():
+
 
 def updateShares():
     global share1
