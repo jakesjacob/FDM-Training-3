@@ -41,11 +41,18 @@ def updateScreenAccountInfo():
 
     shares.calculateTotalInvestAccount()
 
-    print("Share 1 price: ".ljust(25, ' '), shares.share1rounded)
-    print("Share 2 price: ".ljust(25, ' '), shares.share2rounded)
-    print("Share 2 price: ".ljust(25, ' '), shares.share3rounded)
-    print("Cash Account Value: ".ljust(25, ' '), cashAccount.cashAccount)
-    print("Investing Account Value: ".ljust(25, ' '), shares.investAccount)
+    print("Share Prices:")
+    print("Share 1 price per share: ".ljust(
+        25, ' '), "£", shares.share1rounded)
+    print("Share 2 price per share: ".ljust(
+        25, ' '), "£", shares.share2rounded)
+    print("Share 2 price per share: ".ljust(
+        25, ' '), "£", shares.share3rounded)
+    print("\nYour Assets:")
+    print("Cash Account Value: ".ljust(25, ' '), "£",
+          format(cashAccount.cashAccount, ".2f"))
+    print("Investing Account Value: ".ljust(25, ' '), "£",
+          format(shares.investAccount, ".2f"))
     print("\n")
 
 
@@ -75,6 +82,10 @@ def menuLoop():
         print(menus.subMenuSwitch(input("Please enter your menu selection: ")))
 
 
-while 1:
+def main():
     menuLoop()
     shares.updateAllShares()
+
+
+while 1:
+    main()

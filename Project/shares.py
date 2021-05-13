@@ -75,10 +75,26 @@ def updateShares():
     share2rounded = round(share2, 1)
     share3rounded = round(share3, 1)
 
+    if share1rounded <= 0:
+        share1rounded = 0.1
+    if share2rounded <= 0:
+        share2rounded = 0.1
+    if share3rounded <= 0:
+        share3rounded = 0.1
+
     shareShift()
 
 
 schedule.every(1).seconds.do(updateShares)
+
+
+def checkUserInput(input):
+    try:
+        val = float(input)
+        return True
+    except ValueError:
+        print("\nERROR!!! Please enter a number. !!!ERROR.")
+        return False
 
 
 def updateAllShares():
@@ -169,7 +185,10 @@ def buySharesScreen():
     updateAllShares()
     print("\nEnter which Share you would like to purchase or X to exit: ")
     shareNum = input("Share = ")
-    buySharesInfo(shareNum)
+    if checkUserInput(shareNum):
+        buySharesInfo(shareNum)
+    else:
+        buySharesScreen()
 
 
 def buySharesInfo(shareNum):
@@ -184,23 +203,31 @@ def buySharesInfo(shareNum):
             print("Share ", shareNum, " price locked at: ", price)
             print("\nEnter the cash amount you want to invest: ")
             value = input("Amount = ")
-            share1Amount = share1Amount + \
-                buyShares(int(value), price)
-            # print(share1Amount)
+            if checkUserInput(value):
+                share1Amount = share1Amount + \
+                    buyShares(float(value), price)
+            else:
+                buySharesInfo(shareNum)
         elif shareNum == "2":
             price = share2rounded
             print("Share ", shareNum, " price locked at: ", price)
             print("\nEnter the cash amount you want to invest: ")
             value = input("Amount = ")
-            share2Amount = share2Amount + \
-                buyShares(int(value), price)
+            if checkUserInput(value):
+                share2Amount = share2Amount + \
+                    buyShares(float(value), price)
+            else:
+                buySharesInfo(shareNum)
         elif shareNum == "3":
             price = share3rounded
             print("Share ", shareNum, " price locked at: ", price)
             print("\nEnter the cash amount you want to invest: ")
             value = input("Amount = ")
-            share3Amount = share3Amount + \
-                buyShares(int(value), price)
+            if checkUserInput(value):
+                share3Amount = share3Amount + \
+                    buyShares(float(value), price)
+            else:
+                buySharesInfo(shareNum)
         elif shareNum == "X" or shareNum == "x":
             print("exit")
         else:
@@ -224,4 +251,93 @@ def buyShares(value, price):
     return sharesRounded
 
 
-# def sellSharesScreen():
+def sellSharesScreen():
+    updateAllShares()
+    print("\nEnter which Share you would like to sell or X to exit: ")
+    shareNum = input("Share = ")
+    sellSharesInfo(shareNum)
+
+
+def sellSharesInfo(shareNum):
+    updateAllShares()
+    global share1Amount
+    global share2Amount
+    global share3Amount
+
+    if shareNum in shareMenuList:
+        if shareNum == "1":
+            price = share1rounded
+            print("Share ", shareNum, " price locked at: ", price)
+            print("\nShare 1 amount of owned shares: ",
+                  share1Amount, "Worth: ", share1investValue)
+            print("\nEnter the cash amount you want to sell: ")
+            value = input("Amount = ")
+            share1Amount = share1Amount - \
+                sellShares(float(value), price, shareNum)
+        elif shareNum == "2":
+            price = share2rounded
+            print("Share ", shareNum, " price locked at: ", price)
+            print("\nShare 2 amount of owned shares: ",
+                  share2Amount, "Worth: ", share2investValue)
+            print("\nEnter the cash amount you want to sell: ")
+            value = input("Amount = ")
+            share2Amount = share2Amount - \
+                sellShares(float(value), price, shareNum)
+        elif shareNum == "3":
+            price = share3rounded
+            print("Share ", shareNum, " price locked at: ", price)
+            print("\nShare 3 amount of owned shares: ",
+                  share3Amount, "Worth: ", share3investValue)
+            print("\nEnter the cash amount you want to sell: ")
+            value = input("Amount = ")
+            share3Amount = share3Amount - \
+                sellShares(float(value), price, shareNum)
+        elif shareNum == "X" or shareNum == "x":
+            print("exit")
+        else:
+            print("Please enter a valid input")
+            sellSharesScreen()
+
+
+def sellShares(value, price, shareNum):
+
+    if shareNum == "1":
+        if value <= share1investValue and value > 0:
+            cashAccount.cashAccount = cashAccount.cashAccount + value
+            shares = value*price
+            sharesRounded = round(shares, 1)
+            print("\nSUCCESS: You have sold ", sharesRounded, " shares for £", value,
+                  ". \nReturning to the Main Menu please wait.")
+        elif value > share1investValue:
+            print("\nERROR!!! You don't have enough shares to sell for this amount. !!!ERROR. \nReturning to the Main Menu please wait.")
+            sharesRounded = 0
+        elif value <= 0:
+            print("\nERROR!!! Please enter a value larger that 0. !!!ERROR. \nReturning to the Main Menu please wait.")
+            sharesRounded = 0
+    elif shareNum == "2":
+        if value <= share2investValue and value > 0:
+            cashAccount.cashAccount = cashAccount.cashAccount + value
+            shares = value*price
+            sharesRounded = round(shares, 1)
+            print("\nSUCCESS: You have sold ", sharesRounded, " shares for £", value,
+                  ". \nReturning to the Main Menu please wait.")
+        elif value > share1investValue:
+            print("\nERROR!!! You don't have enough shares to sell for this amount. !!!ERROR. \nReturning to the Main Menu please wait.")
+            sharesRounded = 0
+        elif value <= 0:
+            print("\nERROR!!! Please enter a value larger that 0. !!!ERROR. \nReturning to the Main Menu please wait.")
+            sharesRounded = 0
+    elif shareNum == "3":
+        if value <= share3investValue and value > 0:
+            cashAccount.cashAccount = cashAccount.cashAccount + value
+            shares = value*price
+            sharesRounded = round(shares, 1)
+            print("\nSUCCESS: You have sold ", sharesRounded, " shares for £", value,
+                  ". \nReturning to the Main Menu please wait.")
+        elif value > share1investValue:
+            print("\nERROR!!! You don't have enough shares to sell for this amount. !!!ERROR. \nReturning to the Main Menu please wait.")
+            sharesRounded = 0
+        elif value <= 0:
+            print("\nERROR!!! Please enter a value larger that 0. !!!ERROR. \nReturning to the Main Menu please wait.")
+            sharesRounded = 0
+    return sharesRounded

@@ -148,7 +148,7 @@ def investMenuSwitch(selection):
             investMenuActive = False
             mainMenuActive = True
         elif selection == "2":
-            # shares.sellSharesScreen()
+            shares.sellSharesScreen()
             time.sleep(2)
             clearScreen()
             investMenuActive = False

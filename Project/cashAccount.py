@@ -1,12 +1,14 @@
-cashAccount = 200
+
+
+cashAccount = float(200.0)
 
 
 def depositCash(value, cashAccount):
-    if value <= 500 and value > 0:
+    if value <= 500.0 and value > 0:
         newCashAccount = cashAccount + value
         print("\nSUCCESS: You have deposited £" + str(value) +
               ". \nReturning to the Main Menu please wait.")
-    elif value > 500:
+    elif value > 500.0:
         print("\nERROR!!! The deposit limit is £500. !!!ERROR. \nReturning to the Main Menu please wait.")
         newCashAccount = cashAccount
     elif value == 0:
@@ -39,11 +41,27 @@ def depositScreen():
     global cashAccount
     print("\nEnter the amount you want to deposit: ")
     value = input("Amount = ")
-    cashAccount = depositCash(int(value), cashAccount)
+    if checkUserInput(value) == True:
+        cashAccount = depositCash(float(value), cashAccount)
+    else:
+        depositScreen()
 
 
 def withdrawScreen():
     global cashAccount
     print("\nEnter the amount you want to withdraw: ")
     value = input("Amount = ")
-    cashAccount = withdrawCash(int(value), cashAccount)
+    if checkUserInput(value) == True:
+        cashAccount = withdrawCash(float(value), cashAccount)
+    else:
+        withdrawScreen()
+
+
+def checkUserInput(input):
+    try:
+        # Convert it into float
+        val = float(input)
+        return True
+    except ValueError:
+        print("\nERROR!!! Please enter a number. !!!ERROR.")
+        return False
