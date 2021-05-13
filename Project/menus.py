@@ -2,14 +2,20 @@ import os
 import cashAccount
 import shares
 import time
+import database
 
 
 mainMenuList = ("1", "2", "3", "4", "5", "X", "x")
 cashMenuList = ("1", "X", "x")
 investMenuList = ("1", "2", "3", "X", "x")
 sharesMenuList = ("1", "2", "3", "X", "x")
+startMenuList = ("1", "2")
 
-mainMenuActive = True
+
+startMenuActive = True
+loginMenuActive = False
+registerMenuActive = False
+mainMenuActive = False
 subMenuActive = False
 depositMenuActive = False
 withdrawMenuActive = False
@@ -21,13 +27,58 @@ def clearScreen():
     os.system('cls')
 
 
-def updateScreenAccountInfo():
-    print(shares.share1)
-    print(shares.share2)
-    print(shares.share3)
-    print("Cash Account Value: ", cashAccount.cashAccount)
+# START UP MENU
+def startMenuSwitch(selection):
+    global loginMenuActive
+    global registerMenuActive
+    global startMenuActive
+    if selection in startMenuList:
+        if selection == "1":
+            loginMenuActive = True
+            startMenuActive = False
+            clearScreen()
+            return login
+        elif selection == "2":
+            registerMenuActive = True
+            startMenuActive = False
+            clearScreen()
+            return register
+    else:
+        print("Please enter a valid input")
+        startMenuSwitch(input("Please enter your menu selection: "))
 
 
+# LOGIN MENU
+def loginScreen():
+    global loginMenuActive
+    global mainMenuActive
+    userName = getName()
+    password = getPassword()
+    rowSet = database.fetchAccountName(userName)
+
+    if rowSet[0][1] == password:
+        print("Welcome back ", userName)
+        time.sleep(1)
+        clearScreen()
+        mainMenuActive = True
+        loginMenuActive = False
+
+
+def getName():
+    firstName = input("Please type your first name: ")
+    secondName = input("Please type your second name: ")
+    firstNameCap = firstName.capitalize()
+    secondNameCap = secondName.capitalize()
+    fullName = (firstNameCap + " " + secondNameCap)
+    return fullName
+
+
+def getPassword():
+    password = input("Please type your password: ")
+    return password
+
+
+# MAIN MENU
 def mainMenuSwitch(selection):
     shares.updateAllShares()
     global mainMenuActive
@@ -67,6 +118,7 @@ def mainMenuSwitch(selection):
         mainMenuSwitch(input("Please enter your menu selection: "))
 
 
+# SUB MENU TEMPLATE
 def subMenuSwitch(selection):
     shares.updateAllShares()
     global mainMenuActive
@@ -94,6 +146,7 @@ def subMenuSwitch(selection):
         subMenuSwitch(input("Please enter your menu selection: "))
 
 
+# DEPOSIT MENU
 def depositMenuSwitch(selection):
     shares.updateAllShares()
     global mainMenuActive
@@ -115,6 +168,7 @@ def depositMenuSwitch(selection):
         depositMenuSwitch(input("Please enter your menu selection: "))
 
 
+# WITHDRAW MENU
 def withdrawMenuSwitch(selection):
     shares.updateAllShares()
     global mainMenuActive
@@ -136,6 +190,7 @@ def withdrawMenuSwitch(selection):
         withdrawMenuSwitch(input("Please enter your menu selection: "))
 
 
+# INVEST MENU
 def investMenuSwitch(selection):
     shares.updateAllShares()
     global mainMenuActive
@@ -143,7 +198,7 @@ def investMenuSwitch(selection):
     if selection in investMenuList:
         if selection == "1":
             shares.buySharesScreen()
-            # time.sleep(2)
+            time.sleep(2)
             clearScreen()
             investMenuActive = False
             mainMenuActive = True
@@ -169,6 +224,7 @@ def investMenuSwitch(selection):
         sharesMenuSwitch(input("Please enter your menu selection: "))
 
 
+# SHARES INFO MENU
 def sharesMenuSwitch(selection):
     shares.updateAllShares()
     global mainMenuActive
@@ -196,6 +252,55 @@ def sharesMenuSwitch(selection):
         sharesMenuSwitch(input("Please enter your menu selection: "))
 
 
+# START MENU
+startMenu = """
+
+                                        #############################################
+                                        #               WELCOME                     #
+                                        #                                           #
+                                        #       1 -     Login                       #
+                                        #       2 -     Register                    #
+                                        #                                           #
+                                        #                                           #
+                                        #                                           #  
+                                        #                                           #
+                                        #############################################
+
+"""
+
+# LOGIN MENU
+login = """
+
+                                        #############################################
+                                        #               LOGIN SCREEN                #
+                                        #                                           #
+                                        #       Please enter your username          #
+                                        #       and password to continue.           #
+                                        #                                           #
+                                        #                                           #
+                                        #       X -     Back to Welcome Screen      #  
+                                        #                                           #
+                                        #############################################
+
+"""
+
+# REGISTER MENU
+register = """
+
+                                        #############################################
+                                        #               REGISTER SCREEN             #
+                                        #                                           #
+                                        #       Please create a username            #
+                                        #       and password to continue.           #
+                                        #                                           #
+                                        #                                           #
+                                        #       X -     Back to Welcome Screen      #  
+                                        #                                           #
+                                        #############################################
+
+"""
+
+# MAIN MENU
 menuPicture = """
 
                                         #############################################
@@ -211,6 +316,7 @@ menuPicture = """
 
 """
 
+# DEPOSIT MENU
 menuItem1 = """
 
 
@@ -227,6 +333,7 @@ menuItem1 = """
 
 """
 
+# WITHDRAW MENU
 menuItem2 = """
 
 
@@ -243,6 +350,7 @@ menuItem2 = """
 
 """
 
+# INVEST MENU
 menuItem3 = """
 
 
@@ -259,15 +367,16 @@ menuItem3 = """
 
 """
 
+# SHARES INFO MENU
 menuItem4 = """
 
 
                                         #############################################
                                         #               SHARES INFO                 #             
                                         #                                           #
-                                        #       1 -     Share 1 = {0:.1f}              #
-                                        #       2 -     Share 2 = {1:.1f}              #
-                                        #       3 -     Share 3 = {2:.1f}              #
+                                        #       1 -     Share 1 = {0:.1f}             #
+                                        #       2 -     Share 2 = {1:.1f}             #
+                                        #       3 -     Share 3 = {2:.1f}             #
                                         #                                           #
                                         #       X -     Back to Main Menu           #
                                         #                                           #
@@ -275,6 +384,7 @@ menuItem4 = """
 
 """
 
+# ACCOUNT INFO MENU
 menuItem5 = """
 
 

@@ -2,7 +2,7 @@ import sqlite3
 from _sqlite3 import OperationalError
 
 """
-tablie is entity
+table is entity
 column = attritube
 row = instance
 """
@@ -14,7 +14,7 @@ def createTable_Customers():
     cursor = connection.cursor()
     cursor.execute('DROP TABLE IF EXISTS customers')
     cursor.execute(
-        "CREATE TABLE customers (cust_name TEXT, cust_password  TEXT, cust_cash INT, cust_invest INT)")
+        "CREATE TABLE customers (custName TEXT, custPassword  TEXT, custCash INT, custInvest INT)")
     connection.close()
 
 
@@ -25,13 +25,14 @@ def insert_initailDataSet():
         cursor = connection.cursor()
 
         starter_accounts = [
-            ("John", "password", 100, 20),
-            ("Amy", "password", 50, 50),
-            ("Matt", "password", 305, 50),
-            ("Claire", "password", 0, 50)
+            ("John Hank", "password", 100, 0),
+            ("Amy", "password", 50, 0),
+            ("Matt", "password", 305, 0),
+            ("Claire", "password", 0, 0)
         ]
 
         cursor.executemany(
+
             'INSERT INTO customers VALUES (?,?,?,?)', starter_accounts)
         connection.commit()
         print("Bulk rows added successfully")
@@ -67,5 +68,22 @@ def createNewAccount(custName, custPassword, custCash, custInvest):
         connection.close()
 
 
-createTable_Customers()
-insert_initailDataSet()
+def fetchAccountName(findThis_name):
+    """fetchAccount_By_Name will fetch/select matching data for the specified name"""
+    rowSet = ()
+
+    try:
+        connection = sqlite3.connect("online_shares.db")
+        cursor = connection.cursor()
+        rowSet = cursor.execute(
+            "SELECT custName, custPassword, custCash, custInvest FROM customers WHERE custName = ?",
+            (findThis_name,),
+        ).fetchall()
+    except OperationalError as errMsg:
+        print(errMsg)
+    except:
+        print("error on Fetch")
+        connection.rollback()
+    finally:
+        connection.close()
+        return rowSet

@@ -1,6 +1,7 @@
 import menus
 import shares
 import cashAccount
+import database as db
 
 
 import os
@@ -37,6 +38,18 @@ def updateScreen():
 """
 
 
+def startUp():
+    db.createTable_Customers()
+    db.insert_initailDataSet()
+    print(menus.startMenu)
+    print(menus.startMenuSwitch(input("Please enter your menu selection: ")))
+    if menus.loginMenuActive:
+        menus.loginScreen()
+
+    # elif menus.registerMenuActive:
+    # print(menus.registerScreen)
+
+
 def updateScreenAccountInfo():
 
     shares.calculateTotalInvestAccount()
@@ -46,7 +59,7 @@ def updateScreenAccountInfo():
         25, ' '), "£", shares.share1rounded)
     print("Share 2 price per share: ".ljust(
         25, ' '), "£", shares.share2rounded)
-    print("Share 2 price per share: ".ljust(
+    print("Share 3 price per share: ".ljust(
         25, ' '), "£", shares.share3rounded)
     print("\nYour Assets:")
     print("Cash Account Value: ".ljust(25, ' '), "£",
@@ -87,5 +100,6 @@ def main():
     shares.updateAllShares()
 
 
+startUp()
 while 1:
     main()
