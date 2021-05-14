@@ -1,6 +1,6 @@
-import menus
-import shares
-import cashAccount
+import shares_navigation_file as menus
+import shares_invest_file as shares
+import shares_cash_file as cashAccount
 import database as db
 
 
@@ -16,31 +16,14 @@ def clearScreen():
     os.system('cls')
 
 
-print(pyfiglet.figlet_format("Jacob Horgan Python Presentation"))
-tprint("ONLINE", font="block", chr_ignore=True)
-tprint("\nSHARES", font="block", chr_ignore=True)
-
-"""
-def updateValues():
-    updateShares()
-    updateCash()
-    updateInvest()
-
-
-def checkUserInput():
-
-
-def updateScreen():
-    printShares()
-    printCash()
-    printInvest()
-    printMenus()
-"""
-
-
+# INITIALISES PROJECT
 def startUp():
+    """ This function initialises the program and creates a database """
     db.createTable_Customers()
     db.insert_initailDataSet()
+    print(pyfiglet.figlet_format("Jacob Horgan Python Presentation"))
+    tprint("ONLINE", font="block", chr_ignore=True)
+    tprint("\nSHARES", font="block", chr_ignore=True)
     print(menus.startMenu)
     print(menus.startMenuSwitch(input("Please enter your menu selection: ")))
     if menus.loginMenuActive:
@@ -49,10 +32,10 @@ def startUp():
         menus.registerScreen()
 
 
+# UPDATES USER INFO ON THE SCREEN
 def updateScreenAccountInfo():
-
+    """ This function updates the information displayed on the screen. Account value etc. """
     shares.calculateTotalInvestAccount()
-
     print("Hello", menus.loggedUser[0][0] +
           "! Welcome to your online shares trading account.\n")
 
@@ -71,7 +54,9 @@ def updateScreenAccountInfo():
     print("\n")
 
 
+# LOOPS THROUGH THE MAIN MENU
 def menuLoop():
+    """ This function loops through the main menu checking for an input """
     if menus.mainMenuActive:
         print(menus.menuPicture)
         updateScreenAccountInfo()
@@ -98,11 +83,11 @@ def menuLoop():
             input("Please enter your menu selection: ")))
 
 
-def main():
+def mainLoop():
     menuLoop()
     shares.updateAllShares()
 
 
 startUp()
 while 1:
-    main()
+    mainLoop()

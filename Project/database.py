@@ -26,9 +26,9 @@ def insert_initailDataSet():
 
         starter_accounts = [
             ("John Hank", "password", 100, 0),
-            ("Amy", "password", 50, 0),
-            ("Matt", "password", 305, 0),
-            ("Claire", "password", 0, 0)
+            ("Amy", "password2", 50, 0),
+            ("Matt", "password3", 305, 0),
+            ("Claire", "password4", 0, 0)
         ]
 
         cursor.executemany(
@@ -164,7 +164,7 @@ def updateAccountCash(userName, newCash):
         connection.close()
 
 
-def updateAccountInvest(userName, newCash, newInvest):
+def updateAccountInvest(userName, newInvest):
     """UpdateAccount_Detail will Update customer name for the given ID"""
 
     try:
@@ -172,12 +172,8 @@ def updateAccountInvest(userName, newCash, newInvest):
         cursor = connection.cursor()
 
         cursor.execute(
-            "UPDATE customers SET  custCash   = :who  WHERE custName = :whoseID",
-            {"who": newCash, "whoseID": userName}
-        )
-        cursor.execute(
-            "UPDATE customers SET  custInvest   = :who  WHERE custName = :whoseID",
-            {"who": newInvest, "whoseID": userName}
+            "UPDATE customers SET  custInvest = ?  WHERE custName = ?",
+            (newInvest, userName)
         )
         print("success")
     except OperationalError as errMsg:

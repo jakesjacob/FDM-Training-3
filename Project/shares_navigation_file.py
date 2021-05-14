@@ -1,11 +1,11 @@
 import os
-import cashAccount
-import shares
+import shares_cash_file as cashAccount
+import shares_invest_file as shares
 import time
 import database
 
 
-mainMenuList = ("1", "2", "3", "4", "5", "X", "x")
+mainMenuList = ("1", "2", "3", "4", "5", "X", "x", "R", "r")
 cashMenuList = ("1", "X", "x")
 investMenuList = ("1", "2", "3", "X", "x")
 sharesMenuList = ("1", "2", "3", "X", "x")
@@ -33,6 +33,7 @@ def clearScreen():
 
 # START UP MENU
 def startMenuSwitch(selection):
+    """ This function displays the Welcome menu and asks if user wants to login or register """
     global loginMenuActive
     global registerMenuActive
     global startMenuActive
@@ -54,6 +55,7 @@ def startMenuSwitch(selection):
 
 # LOGIN MENU
 def loginScreen():
+    """ This function displays the Login screen and asks the user to enter their name and password """
     global loginMenuActive
     global mainMenuActive
     global loggedUser
@@ -84,6 +86,7 @@ def loginScreen():
 
 # REGISTER SCREEN
 def registerScreen():
+    """ This function displays the register screen and asks the user to input a name and password """
     global loginMenuActive
     global registerMenuActive
     userName = getName()
@@ -97,7 +100,9 @@ def registerScreen():
     loginScreen()
 
 
+# ASKS FOR NAME
 def getName():
+    """ This function asks the user to input their name and returns it capitilsed and as one variable """
     firstName = input("Please type your first name: ")
     secondName = input("Please type your second name: ")
     firstNameCap = firstName.capitalize()
@@ -106,24 +111,30 @@ def getName():
     return fullName
 
 
+# ASKS FOR PASSWORD
 def getPassword():
-    """ This is allowing the user to type in a pasword """
+    """ This function asks the user to enter a password and returns it """
     password = input("Please type your password: ")
     return password
 
 
+# GETS CASH ACCOUNT FROM DATABASE
 def getCashAccount():
+    """ This function gets cash account value from database """
     global loggedUser
     cashAccount.cashAccount = loggedUser[0][2]
 
 
+# GETS INVEST ACCOUNT FROM DATABASE
 def getInvestAccount():
+    """ This function gets invest account value from database """
     global loggedUser
     shares.investAccount = loggedUser[0][3]
 
 
 # MAIN MENU
 def mainMenuSwitch(selection):
+    """ This function checks for user input on the main menu """
     shares.updateAllShares()
     global mainMenuActive
     global subMenuActive
@@ -158,6 +169,8 @@ def mainMenuSwitch(selection):
             mainMenuActive = False
             clearScreen()
             return menuItem5
+        elif selection == "R" or selection == "r":
+            clearScreen()
     else:
         print("Please enter a valid input")
         mainMenuSwitch(input("Please enter your menu selection: "))
@@ -165,6 +178,7 @@ def mainMenuSwitch(selection):
 
 # SUB MENU TEMPLATE
 def subMenuSwitch(selection):
+    """ This function checks for user input on the sub menu 'template menu' """
     shares.updateAllShares()
     global mainMenuActive
     global subMenuActive
@@ -193,6 +207,7 @@ def subMenuSwitch(selection):
 
 # DEPOSIT MENU
 def depositMenuSwitch(selection):
+    """ This function checks for user input on the deposit menu """
     shares.updateAllShares()
     global mainMenuActive
     global depositMenuActive
@@ -215,6 +230,7 @@ def depositMenuSwitch(selection):
 
 # WITHDRAW MENU
 def withdrawMenuSwitch(selection):
+    """ This function checks for user input on the withdraw menu """
     shares.updateAllShares()
     global mainMenuActive
     global withdrawMenuActive
@@ -237,6 +253,7 @@ def withdrawMenuSwitch(selection):
 
 # INVEST MENU
 def investMenuSwitch(selection):
+    """ This function checks for user input on the invest menu """
     shares.updateAllShares()
     global mainMenuActive
     global investMenuActive
@@ -271,6 +288,7 @@ def investMenuSwitch(selection):
 
 # SHARES INFO MENU
 def sharesMenuSwitch(selection):
+    """ This function checks for user input on the shares menu """
     shares.updateAllShares()
     global mainMenuActive
     global sharesMenuActive
@@ -297,7 +315,9 @@ def sharesMenuSwitch(selection):
         sharesMenuSwitch(input("Please enter your menu selection: "))
 
 
+# ACCOUNT INFO MENU
 def accountMenuSwitch(selection):
+    """ This function checks for user input on the account menu """
     shares.updateAllShares()
     global mainMenuActive
     global loginMenuActive
@@ -334,7 +354,9 @@ def accountMenuSwitch(selection):
         sharesMenuSwitch(input("Please enter your menu selection: "))
 
 
+# SETS A NEW USERNAME
 def setNewName():
+    """ This function updates the users username on database """
     global loggedUser
     print("This will update your username on our database.")
     newName = getName()
@@ -342,7 +364,9 @@ def setNewName():
     loggedUser = database.fetchAccountName(newName)
 
 
+# SETS A NEW PASSWORD
 def setNewPassword():
+    """ This function updates the users password on database """
     global loggedUser
     print("This will update your password on our database.")
     newPassword = getPassword()
@@ -350,7 +374,9 @@ def setNewPassword():
     loggedUser = database.fetchAccountName(loggedUser[0][0])
 
 
+# LOGS USER OUT
 def logoutUser():
+    """ This function logs the user out and updates cash and ivest account values on database """
     global loggedUser
     global loginMenuActive
     newCash = cashAccount.cashAccount
@@ -431,8 +457,8 @@ menuItem1 = """
                                         #############################################
                                         #               CASH DEPOSIT                #             
                                         #                                           #
-                                        #       Deposits will be rounded to         #
-                                        #       the nearest £. Limit of £500.       #
+                                        #       Deposits will be rounded to 1       #
+                                        #       decimal point. Limit of £500.       #
                                         #                                           #
                                         #       1 -     Proceed                     #
                                         #       X -     Back to Main Menu           #

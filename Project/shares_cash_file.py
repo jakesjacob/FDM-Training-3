@@ -1,9 +1,9 @@
-
-
 cashAccount = float(0.0)
 
 
+# DEPOSITS CASH AND CHECKS FOR ERRORS
 def depositCash(value, cashAccount):
+    """ This function deposits cash into users cash account """
     if value <= 500.0 and value > 0:
         newCashAccount = cashAccount + value
         print("\nSUCCESS: You have deposited £" + str(value) +
@@ -20,7 +20,9 @@ def depositCash(value, cashAccount):
     return newCashAccount
 
 
+# WITHDRAWS CASH AND CHECKS FOR ERRORS
 def withdrawCash(value, cashAccount):
+    """ This function withdraws cash from users cash account """
     if value <= cashAccount and value > 0:
         newCashAccount = cashAccount - value
         print("\nSUCCESS: You have withdrawn £" + str(value) +
@@ -37,7 +39,9 @@ def withdrawCash(value, cashAccount):
     return newCashAccount
 
 
+# ASKS USER HOW MUCH THEY WANT TO DEPOSIT
 def depositScreen():
+    """ This function asks the user how much cash they want to deposit """
     global cashAccount
     print("\nEnter the amount you want to deposit: ")
     value = input("Amount = ")
@@ -47,7 +51,9 @@ def depositScreen():
         depositScreen()
 
 
+# ASKS USER HOW MUCH THEY WANT TO WITHDRAW
 def withdrawScreen():
+    """ This function asks the user how much cash they want to withdraw """
     global cashAccount
     print("\nEnter the amount you want to withdraw: ")
     value = input("Amount = ")
@@ -57,6 +63,7 @@ def withdrawScreen():
         withdrawScreen()
 
 
+# CHECKS USER INPUT IS NUMBER
 def checkUserInput(input):
     try:
         # Convert it into float

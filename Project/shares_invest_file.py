@@ -1,7 +1,7 @@
 import random
 import time
 import schedule
-import cashAccount
+import shares_cash_file as cashAccount
 
 
 shareMenuList = ("1", "2", "3")
@@ -29,12 +29,24 @@ share2investValue = 0
 share3investValue = 0
 
 
+# WHAT I WOULD DO DIFFERENTLY WITH MORE TIME!
+"""
+shares = {1: {'value': '0.0', 'roundedValue': '0.0', 'amount': '0', 'investValue': '0'},
+          2: {'value': '0.0', 'roundedValue': '0.0', 'amount': '0', 'investValue': '0'}
+          3: {'value': '0.0', 'roundedValue': '0.0', 'amount': '0', 'investValue': '0'}}
+"""
+
+
+# SHIFT LIST TO THE LEFT
 def shiftLeft(sequence, shiftNum=0):
+    """ This function shifts values in a list to left by n times """
     shiftValue = shiftNum % len(sequence)
     return sequence[+shiftValue:] + sequence[:+shiftValue]
 
 
+# SHIFT ALL SHARES
 def shareShift():
+    """ This function shifts all shares """
     global share1List
     global share2List
     global share3List
@@ -49,7 +61,9 @@ def shareShift():
     share3List[-1] = share3rounded
 
 
+# UPDATE SHARES EVERY SECOND WITH RANDOM VALUES
 def updateShares():
+    """ This function updates all shares with random values between 0.1 - 0.8 either up or down every second """
     global share1
     global share2
     global share3
@@ -81,14 +95,15 @@ def updateShares():
         share2rounded = 0.1
     if share3rounded <= 0:
         share3rounded = 0.1
-
     shareShift()
 
 
 schedule.every(1).seconds.do(updateShares)
 
 
+# CHECK USER INPUT IS NUMBER
 def checkUserInput(input):
+    """ This function checks to ensure the user has entered a number """
     try:
         val = float(input)
         return True
@@ -97,16 +112,21 @@ def checkUserInput(input):
         return False
 
 
+# UPDATE ALL SHARES
 def updateAllShares():
+    """ This function calls the schedule of 1 second """
     schedule.run_pending()
 
 
+# CALCULATE SINGLE SHARE VALUE
 def calculateShareValue(sharePrice, shareAmount):
     shareValue = sharePrice * shareAmount
     return shareValue
 
 
+# CALCULATE TOTAL INVEST VALUE
 def calculateTotalInvestAccount():
+    """ This function calculates the total value of the Invest account """
     updateAllShares()
     global share1Amount
     global share2Amount
@@ -126,7 +146,9 @@ def calculateTotalInvestAccount():
     investAccount = share1investValue + share2investValue + share3investValue
 
 
+# VIEW INVESTING PORTFOLIO INFORMATION
 def viewPortfolioScreen():
+    """ This function displays the portfolio screen and relevant data about share holdings """
     updateAllShares()
     global share1Amount
     global share2Amount
@@ -142,46 +164,51 @@ def viewPortfolioScreen():
     print("\nShare 3 amount of owned shares: ",
           share3Amount, "Worth: ", format(share3investValue, ".2f"))
 
-    input("Press any key to return to Main Menu")
+    input("\nPress any key to return to Main Menu")
 
 
+# LIVE FEED SHARE 1
 def displayShare1():
+    """ This function displays a live feed of Share 1 data being updated """
     global share1List
     count = 0
     print("\nViewing live prices of Share 1 for 5 seconds:\n")
     while count < 6:
         updateAllShares()
-        #print("\n Update:\n")
         print(share1List, end="\r")
         count += 1
         time.sleep(1)
 
 
+# LIVE FEED SHARE 2
 def displayShare2():
+    """ This function displays a live feed of Share 2 data being updated """
     global share2List
     count = 0
     print("\nViewing live prices of Share 2 for 5 seconds:\n")
     while count < 6:
         updateAllShares()
-        #print("\n Update:\n")
         print(share2List, end="\r")
         count += 1
         time.sleep(1)
 
 
+# LIVE FEED SHARE 3
 def displayShare3():
+    """ This function displays a live feed of Share 3 data being updated """
     global share3List
     count = 0
     print("\nViewing live prices of Share 3 for 5 seconds:\n")
     while count < 6:
         updateAllShares()
-        #print("\n Update:\n")
         print(share3List, end="\r")
         count += 1
         time.sleep(1)
 
 
+# ASKS USER WHICH SHARE THEY WANT TO BUY
 def buySharesScreen():
+    """ This function displays the buy shares screen and asks user which share """
     updateAllShares()
     print("\nEnter which Share you would like to purchase or X to exit: ")
     shareNum = input("Share = ")
@@ -191,7 +218,9 @@ def buySharesScreen():
         buySharesScreen()
 
 
+# ASKS USER HOW MUCH THEY WANT TO BUY
 def buySharesInfo(shareNum):
+    """ This function asks user how much cash value of a share to buy """
     updateAllShares()
     global share1Amount
     global share2Amount
@@ -235,7 +264,9 @@ def buySharesInfo(shareNum):
             buySharesScreen()
 
 
+# CALCULATES HOW MANY SHARES USER WILL GET
 def buyShares(value, price):
+    """ This function calculates how many shares the user will get for their buy order """
     if value <= cashAccount.cashAccount and value > 0:
         cashAccount.cashAccount = cashAccount.cashAccount - value
         shares = value/price
@@ -251,14 +282,18 @@ def buyShares(value, price):
     return sharesRounded
 
 
+# ASKS USER WHICH SHARE THEY WANT TO SELL
 def sellSharesScreen():
+    """ This function displays the sell shares screen and asks user which share """
     updateAllShares()
     print("\nEnter which Share you would like to sell or X to exit: ")
     shareNum = input("Share = ")
     sellSharesInfo(shareNum)
 
 
+# ASKS USER HOW MUCH THEY WANT TO SELL
 def sellSharesInfo(shareNum):
+    """ This function asks user how much cash value of a share to sell """
     updateAllShares()
     global share1Amount
     global share2Amount
@@ -303,10 +338,11 @@ def sellSharesInfo(shareNum):
             sellSharesScreen()
 
 
+# CALCULATES HOW MANY SHARES USER WILL SELL
 def sellShares(value, price, shareNum):
+    """ This function calculates how many shares the user will sell for their sell order """
     if shareNum == "1":
         if value <= share1investValue and value > 0:
-            # shareSaleValue =
             cashAccount.cashAccount = cashAccount.cashAccount + value
             shares = value/price
             sharesRounded = round(shares, 1)
