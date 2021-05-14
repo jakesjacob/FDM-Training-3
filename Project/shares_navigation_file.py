@@ -508,9 +508,9 @@ menuItem4 = """
                                         #############################################
                                         #               SHARES INFO                 #             
                                         #                                           #
-                                        #       1 -     Share 1 = {0:.1f}             #
-                                        #       2 -     Share 2 = {1:.1f}             #
-                                        #       3 -     Share 3 = {2:.1f}             #
+                                        #       1 -     Share 1 = {0:.1f}               #
+                                        #       2 -     Share 2 = {1:.1f}               #
+                                        #       3 -     Share 3 = {2:.1f}               #
                                         #                                           #
                                         #       X -     Back to Main Menu           #
                                         #                                           #
