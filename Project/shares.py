@@ -6,7 +6,7 @@ import cashAccount
 
 shareMenuList = ("1", "2", "3")
 
-investAccount = 0
+investAccount = float(0.0)
 
 share1 = float(1.0)
 share2 = float(1.0)
@@ -136,13 +136,13 @@ def viewPortfolioScreen():
     print("\nTotal Investing account is worth: £", investAccount)
 
     print("\nShare 1 amount of owned shares: ",
-          share1Amount, "Worth: ", share1investValue)
+          share1Amount, "Worth: ", format(share1investValue, ".2f"))
     print("\nShare 2 amount of owned shares: ",
-          share2Amount, "Worth: ", share2investValue)
+          share2Amount, "Worth: ", format(share2investValue, ".2f"))
     print("\nShare 3 amount of owned shares: ",
-          share3Amount, "Worth: ", share3investValue)
+          share3Amount, "Worth: ", format(share3investValue, ".2f"))
 
-    input("Press any key to retunr to Main Menu")
+    input("Press any key to return to Main Menu")
 
 
 def displayShare1():
@@ -265,6 +265,7 @@ def sellSharesInfo(shareNum):
     global share3Amount
 
     if shareNum in shareMenuList:
+
         if shareNum == "1":
             price = share1rounded
             print("Share ", shareNum, " price locked at: ", price)
@@ -274,6 +275,7 @@ def sellSharesInfo(shareNum):
             value = input("Amount = ")
             share1Amount = share1Amount - \
                 sellShares(float(value), price, shareNum)
+
         elif shareNum == "2":
             price = share2rounded
             print("Share ", shareNum, " price locked at: ", price)
@@ -283,6 +285,7 @@ def sellSharesInfo(shareNum):
             value = input("Amount = ")
             share2Amount = share2Amount - \
                 sellShares(float(value), price, shareNum)
+
         elif shareNum == "3":
             price = share3rounded
             print("Share ", shareNum, " price locked at: ", price)
@@ -292,6 +295,7 @@ def sellSharesInfo(shareNum):
             value = input("Amount = ")
             share3Amount = share3Amount - \
                 sellShares(float(value), price, shareNum)
+
         elif shareNum == "X" or shareNum == "x":
             print("exit")
         else:
@@ -300,11 +304,11 @@ def sellSharesInfo(shareNum):
 
 
 def sellShares(value, price, shareNum):
-
     if shareNum == "1":
         if value <= share1investValue and value > 0:
+            # shareSaleValue =
             cashAccount.cashAccount = cashAccount.cashAccount + value
-            shares = value*price
+            shares = value/price
             sharesRounded = round(shares, 1)
             print("\nSUCCESS: You have sold ", sharesRounded, " shares for £", value,
                   ". \nReturning to the Main Menu please wait.")
@@ -317,7 +321,7 @@ def sellShares(value, price, shareNum):
     elif shareNum == "2":
         if value <= share2investValue and value > 0:
             cashAccount.cashAccount = cashAccount.cashAccount + value
-            shares = value*price
+            shares = value/price
             sharesRounded = round(shares, 1)
             print("\nSUCCESS: You have sold ", sharesRounded, " shares for £", value,
                   ". \nReturning to the Main Menu please wait.")
@@ -330,7 +334,7 @@ def sellShares(value, price, shareNum):
     elif shareNum == "3":
         if value <= share3investValue and value > 0:
             cashAccount.cashAccount = cashAccount.cashAccount + value
-            shares = value*price
+            shares = value/price
             sharesRounded = round(shares, 1)
             print("\nSUCCESS: You have sold ", sharesRounded, " shares for £", value,
                   ". \nReturning to the Main Menu please wait.")

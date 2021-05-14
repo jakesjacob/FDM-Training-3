@@ -53,7 +53,10 @@ def updateScreenAccountInfo():
 
     shares.calculateTotalInvestAccount()
 
-    print("Share Prices:")
+    print("Hello", menus.loggedUser[0][0] +
+          "! Welcome to your online shares trading account.\n")
+
+    print("\nShare Prices:")
     print("Share 1 price per share: ".ljust(
         25, ' '), "£", shares.share1rounded)
     print("Share 2 price per share: ".ljust(
@@ -89,9 +92,10 @@ def menuLoop():
         updateScreenAccountInfo()
         print(menus.sharesMenuSwitch(
             input("Please enter your menu selection: ")))
-    elif menus.subMenuActive:
+    elif menus.accountMenuActive:
         updateScreenAccountInfo()
-        print(menus.subMenuSwitch(input("Please enter your menu selection: ")))
+        print(menus.accountMenuSwitch(
+            input("Please enter your menu selection: ")))
 
 
 def main():

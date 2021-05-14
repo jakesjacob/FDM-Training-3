@@ -9,6 +9,7 @@ mainMenuList = ("1", "2", "3", "4", "5", "X", "x")
 cashMenuList = ("1", "X", "x")
 investMenuList = ("1", "2", "3", "X", "x")
 sharesMenuList = ("1", "2", "3", "X", "x")
+accountMenuList = ("1", "2", "3", "X", "x")
 startMenuList = ("1", "2")
 
 
@@ -21,6 +22,9 @@ depositMenuActive = False
 withdrawMenuActive = False
 investMenuActive = False
 sharesMenuActive = False
+accountMenuActive = False
+
+loggedUser = []
 
 
 def clearScreen():
@@ -52,15 +56,30 @@ def startMenuSwitch(selection):
 def loginScreen():
     global loginMenuActive
     global mainMenuActive
+    global loggedUser
     userName = getName()
     password = getPassword()
-    rowSet = database.fetchAccountName(userName)
-    if rowSet[0][1] == password:
+    loggedUser = database.fetchAccountName(userName)
+    if loggedUser == []:
+        print("That username does not exist. Please try again.")
+        time.sleep(1)
+        clearScreen()
+        print(login)
+        loginScreen()
+    elif loggedUser[0][1] == password:
         print("Welcome back ", userName)
         time.sleep(1)
+        getCashAccount()
+        getInvestAccount()
         clearScreen()
         mainMenuActive = True
         loginMenuActive = False
+    elif loggedUser[0][1] != password:
+        print("Incorrect Password. Please try again.")
+        time.sleep(1)
+        clearScreen()
+        print(login)
+        loginScreen()
 
 
 # REGISTER SCREEN
@@ -88,8 +107,19 @@ def getName():
 
 
 def getPassword():
+    """ This is allowing the user to type in a pasword """
     password = input("Please type your password: ")
     return password
+
+
+def getCashAccount():
+    global loggedUser
+    cashAccount.cashAccount = loggedUser[0][2]
+
+
+def getInvestAccount():
+    global loggedUser
+    shares.investAccount = loggedUser[0][3]
 
 
 # MAIN MENU
@@ -101,6 +131,7 @@ def mainMenuSwitch(selection):
     global withdrawMenuActive
     global investMenuActive
     global sharesMenuActive
+    global accountMenuActive
     if selection in mainMenuList:
         if selection == "1":
             depositMenuActive = True
@@ -123,7 +154,7 @@ def mainMenuSwitch(selection):
             clearScreen()
             return print(menuItem4.format(shares.share1, shares.share2, shares.share3))
         elif selection == "5":
-            subMenuActive = True
+            accountMenuActive = True
             mainMenuActive = False
             clearScreen()
             return menuItem5
@@ -266,6 +297,69 @@ def sharesMenuSwitch(selection):
         sharesMenuSwitch(input("Please enter your menu selection: "))
 
 
+def accountMenuSwitch(selection):
+    shares.updateAllShares()
+    global mainMenuActive
+    global loginMenuActive
+    global accountMenuActive
+    global loggedUser
+    if selection in accountMenuList:
+        if selection == "1":
+            setNewName()
+            time.sleep(2)
+            clearScreen()
+            accountMenuActive = False
+            mainMenuActive = True
+        elif selection == "2":
+            setNewPassword()
+            time.sleep(2)
+            clearScreen()
+            accountMenuActive = False
+            mainMenuActive = True
+        elif selection == "3":
+            logoutUser()
+            print("Logging out...")
+            time.sleep(2)
+            clearScreen()
+            print(login)
+            loginMenuActive = True
+            loginScreen()
+        elif selection == "X" or selection == "x":
+            clearScreen()
+            accountMenuActive = False
+            mainMenuActive = True
+            return " "
+    else:
+        print("Please enter a valid input")
+        sharesMenuSwitch(input("Please enter your menu selection: "))
+
+
+def setNewName():
+    global loggedUser
+    print("This will update your username on our database.")
+    newName = getName()
+    database.updateAccountName(loggedUser[0][0], newName)
+    loggedUser = database.fetchAccountName(newName)
+
+
+def setNewPassword():
+    global loggedUser
+    print("This will update your password on our database.")
+    newPassword = getPassword()
+    database.updateAccountPassword(loggedUser[0][1], newPassword)
+    loggedUser = database.fetchAccountName(loggedUser[0][0])
+
+
+def logoutUser():
+    global loggedUser
+    global loginMenuActive
+    newCash = cashAccount.cashAccount
+    print(newCash)
+    print(loggedUser[0][0])
+    database.updateAccountCash(
+        loggedUser[0][0], newCash)
+
+
 # START MENU
 startMenu = """
 
@@ -405,10 +499,10 @@ menuItem5 = """
                                         #############################################
                                         #               ACCOUNT INFO                #             
                                         #                                           #
-                                        #       1 -                                 #
-                                        #       2 -                                 #
-                                        #       3 -                                 #
-                                        #       4 -                                 #
+                                        #       1 -     Update username             #
+                                        #       2 -     Update password             #
+                                        #       3 -     Logout                      #
+                                        #                                           #
                                         #       X -     Back to Main Menu           #
                                         #                                           #
                                         #############################################

@@ -1,6 +1,6 @@
 
 
-cashAccount = float(200.0)
+cashAccount = float(0.0)
 
 
 def depositCash(value, cashAccount):

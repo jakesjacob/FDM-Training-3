@@ -10,3 +10,4 @@ print("Converted date - strict date: ", strictDate)
 
 strictDate2 = datetimeDate.strftime("%A %y %a")
 print("Converted date - strict date: ", strictDate2)
+# help(datetime)

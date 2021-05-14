@@ -14,7 +14,7 @@ def createTable_Customers():
     cursor = connection.cursor()
     cursor.execute('DROP TABLE IF EXISTS customers')
     cursor.execute(
-        "CREATE TABLE customers (custName TEXT, custPassword  TEXT, custCash INT, custInvest INT)")
+        "CREATE TABLE customers (custName TEXT, custPassword  TEXT, custCash FLOAT, custInvest FLOAT)")
     connection.close()
 
 
@@ -87,3 +87,105 @@ def fetchAccountName(findThis_name):
     finally:
         connection.close()
         return rowSet
+
+
+def updateAccountName(currentName,  newName):
+    """UpdateAccount_Detail will Update customer name for the given ID"""
+
+    try:
+        connection = sqlite3.connect("online_shares.db")
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "UPDATE customers SET  custName   = :who  WHERE custName = :whoseID",
+            {"who": newName, "whoseID": currentName}
+        )
+        connection.commit()
+        print("Account_Detail for:",  currentName,
+              " Updated successfully to:", newName)
+
+    except OperationalError as errMsg:
+        print(errMsg)
+    except:
+        print("error on INSERT")
+        connection.rollback()
+    else:
+        print("Success, no error!")
+    finally:
+        connection.close()
+
+
+def updateAccountPassword(currentPassword,  newPassword):
+    """UpdateAccount_Detail will Update customer name for the given ID"""
+
+    try:
+        connection = sqlite3.connect("online_shares.db")
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "UPDATE customers SET  custPassword   = :who  WHERE custPassword = :whoseID",
+            {"who": newPassword, "whoseID": currentPassword}
+        )
+        connection.commit()
+        print("Account_Detail for:",  currentPassword,
+              " Updated successfully to:", newPassword)
+
+    except OperationalError as errMsg:
+        print(errMsg)
+    except:
+        print("error on INSERT")
+        connection.rollback()
+    else:
+        print("Success, no error!")
+    finally:
+        connection.close()
+
+
+def updateAccountCash(userName, newCash):
+    """UpdateAccount_Detail will Update customer name for the given ID"""
+
+    try:
+        connection = sqlite3.connect("online_shares.db")
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "UPDATE customers SET  custCash = ?  WHERE custName = ?",
+            (newCash, userName)
+        )
+        print("success")
+    except OperationalError as errMsg:
+        print(errMsg)
+    except:
+        print("error on INSERT")
+        connection.rollback()
+    else:
+        print("Success, no error!")
+    finally:
+        connection.close()
+
+
+def updateAccountInvest(userName, newCash, newInvest):
+    """UpdateAccount_Detail will Update customer name for the given ID"""
+
+    try:
+        connection = sqlite3.connect("online_shares.db")
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "UPDATE customers SET  custCash   = :who  WHERE custName = :whoseID",
+            {"who": newCash, "whoseID": userName}
+        )
+        cursor.execute(
+            "UPDATE customers SET  custInvest   = :who  WHERE custName = :whoseID",
+            {"who": newInvest, "whoseID": userName}
+        )
+        print("success")
+    except OperationalError as errMsg:
+        print(errMsg)
+    except:
+        print("error on INSERT")
+        connection.rollback()
+    else:
+        print("Success, no error!")
+    finally:
+        connection.close()
